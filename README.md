@@ -6,9 +6,9 @@ use this command run the script
 python scraper.py
 ```
 
-### Conditions Setting
+## Conditions Setting
 
-#### search conditions
+### search conditions
 
 Modify `get_java_repositories_with_stars` method in `scraper.py`.
 
@@ -24,7 +24,7 @@ params = {
 ```
 You can add query conditions in value of key"q", change language and so on. But Carefully change things related to method input params, unless you know how to deal with.
 
-#### filter conditions
+### filter conditions
 
 Modify method with suffix "filter" or add new filter method to make fine-grained filters.
 
@@ -162,7 +162,7 @@ If you want to add new filter, fill the place with comment `# add new filter her
 ```
 </details>
 
-### Token Setting
+## Token Setting
 
 You should add a file named `tokens.txt` to record **Github Personal Access Token** to accelerate speed and avoid [rate limit](https://docs.github.com/en/graphql/overview/rate-limits-and-node-limits-for-the-graphql-api#exceeding-the-rate-limit).
 
