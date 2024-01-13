@@ -9,6 +9,7 @@ def find_tokens():
     return tokens
 
 def save_to_file(content, filename="result.json"):
+    content = list(content)
     if not os.path.exists(filename):
         with open(filename, "w") as f:
             json.dump(content, f, indent=4)
@@ -16,7 +17,7 @@ def save_to_file(content, filename="result.json"):
         with open (filename, 'r') as f:
             data = json.load(f)
         data.extend(content)
-        data = list(set(data))
+        # data = list(set(data))
         with open(filename, "w") as f:
             json.dump(data, f, indent=4)
 
@@ -39,6 +40,11 @@ def handle_repos(repos):
     for repo in repos:
         url_repos.append(repo['html_url'])
     return url_repos
+
+def read_json(json_file):
+    with open(json_file, 'r') as f:
+        data = json.load(f)
+    return data
 
 # init
 tokens = find_tokens()

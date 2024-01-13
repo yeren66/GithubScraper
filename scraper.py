@@ -83,10 +83,7 @@ if __name__ == "__main__":
     # cause only 1k repos could be scraped once, so use stars_bound to control the number of repos.
     # make sure the number of repos in the stars_cound is less than 1k.
     # This section can be rewritten to obtain automatically if really needed >_<
-    stars_bound = [(4000, 1000000), (2000, 4000), (1500, 2000), (1200, 1500), (1000, 1200), 
-                   (800, 1000), (700, 800), (600, 700), (500, 600), (450, 500), (400, 450), (350, 400), 
-                   (320, 350), (300, 320), (270, 300), (250, 270), (230, 250), (210, 230), (200, 210), 
-                   (190, 200), (180, 190), (170, 180), (160, 170), (150, 160), (145, 150), (140, 145),
+    stars_bound = [(230, 250), (145, 150), (140, 145),
                    (135, 140), (130, 135), (125, 130), (120, 125), (115, 120), (110, 115), (105, 110), (100, 105)]
     
     for i in range(len(stars_bound)):
@@ -98,7 +95,7 @@ if __name__ == "__main__":
         for page in tqdm(range(1, 11), desc="Getting repositories"):
             try:
                 per_search = get_java_repositories_with_stars(headers, stars_lower_bound, stars_upper_bound, page)
-            except e:
+            except Exception as e:
                 logging.info("When Getting repositories, something maybe connection error occured, sleep 3s and retry, details:")
                 logging.info(e)
                 time.sleep(3)
@@ -116,7 +113,7 @@ if __name__ == "__main__":
         for j in tqdm(range(len(temp_repos)), desc="Filtering repositories"):
             try:
                 commit_count = commit_count_filter(temp_repos[j])
-                has_pom_file = has_pom_file_filter(temp_repos[j])
+                # has_pom_file = has_pom_file_filter(temp_repos[j])
                 # add new filter here
             except Exception as e:
                 logging.info("When Filtering repositories, somethingmaybe connection error occured, sleep 3s and retry, details:")
@@ -124,7 +121,7 @@ if __name__ == "__main__":
                 time.sleep(3)
                 j -= 1
                 continue
-            if commit_count != -1 and has_pom_file: # add new filter here
+            if commit_count != -1: # add new filter here
                 filtered_repos.append(temp_repos[j])
                 content = {'project_name': temp_repos[j]['name'], 'url': temp_repos[j]['html_url'], 'stars': temp_repos[j]['stargazers_count'], 'size': temp_repos[j]['size'], 'commit_count': commit_count}
                 gather_repos.append(content)
@@ -132,8 +129,6 @@ if __name__ == "__main__":
         utils.save_to_file(filtered_repos, "original_result.json")
         utils.save_to_file(gather_repos, "gather_result.json")
         repositories.extend(filtered_repos)
-        if len(repositories) >= 3000:
-            break
 
     url_repos = utils.handle_repos(repositories)
     utils.save_to_file(url_repos, "url_data.json")
