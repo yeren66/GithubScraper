@@ -9,7 +9,8 @@ def find_tokens():
     return tokens
 
 def save_to_file(content, filename="result.json"):
-    content = list(content)
+    if type(content) is not list:
+        content = [content]
     if not os.path.exists(filename):
         with open(filename, "w") as f:
             json.dump(content, f, indent=4)

@@ -4,7 +4,6 @@ import json
 import re
 from tqdm import tqdm
 import utils
-from tqdm import tqdm
 import logging
 
 logging.basicConfig(filename='monitor_rate_limit.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
